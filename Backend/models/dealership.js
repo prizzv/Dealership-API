@@ -1,34 +1,25 @@
-import { faker } from '@faker-js/faker';
 import { connectToDB, closeConnection } from '../db.js';
+import { insertCar } from './cars.js';
+import { ObjectId } from 'mongodb';
 
-const generateFakeDealerData = () => {
-    return {
-        dealership_email: faker.internet.email(),
-        dealership_id: faker.string.uuid(),
-        dealership_name: faker.company.name(),
-        password: faker.internet.password(),
-        dealership_info: faker.datatype.json(),
-        cars: faker.string.uuid(),
-        deals: faker.string.uuid(),
-        sold_vehicles: faker.string.uuid(),
-    };
-}
-
-async function createFakeData() {
-    let result = [];
-    for (let i = 0; i < 5; i++) {
-        result[i] = generateFakeDealerData();
-    }
-    insertDealer(result);
-    // console.log(result);
-}
-
-const insertDealer = async function (doc) {
+const findDealershipAndUpdate = async function (id, carObjectId) {
     try {
-        const carsCollection = await connectToDB("NERVESPARK", "dealership");
+        const dealershipCollection = await connectToDB("NERVESPARK", "dealership");
+
+        const dealership = await dealershipCollection.findOne({ "_id": new ObjectId(id) });
         
-        // console.log(await carsCollection.insertMany(doc));
-        return await carsCollection.insertOne(doc);
+        let dealershipCars = dealership.cars;
+        dealershipCars.push(carObjectId);
+
+        const fiter = { "_id": new ObjectId(id) };
+        const updateDocument = {
+            $set: {
+                "cars": dealershipCars,
+            }
+        }
+
+        return await dealershipCollection.updateOne(fiter, updateDocument);
+
     } catch (e) {
         console.error(e);
     } finally {
@@ -37,6 +28,35 @@ const insertDealer = async function (doc) {
     }
 }
 
+// create a new dealership
+const insertDealer = async function (doc) {
+    try {
+        const dealershipCollection = await connectToDB("NERVESPARK", "dealership");
+
+        // console.log(await dealershipCollection.insertMany(doc));
+        return await dealershipCollection.insertOne(doc);
+    } catch (e) {
+        console.error(e);
+    } finally {
+        await closeConnection();
+        console.log("Connection closed")
+    }
+}
+
+// insert a new car to a dealership
+const insertCarToDealership = async function (dealershipId, doc) {
+    try {
+        const carData = await insertCar(doc);
+    
+        const dealership = await findDealershipAndUpdate(dealershipId, carData.insertedId);
+        return dealership;
+    } catch (error) {
+        
+    }
+
+    console.log({ dealership }); 
+}
+
 // createFakeData();
 
-// export { fakeDealerData };
+export { insertDealer, insertCarToDealership };
