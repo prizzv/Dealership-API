@@ -1,49 +1,29 @@
 import express from 'express';
 var router = express.Router();
-import { insertCarToDealership } from '../models/dealership.js'
-import { generateFakeCarData, generateFakeUserData, generateFakeDealerData } from '../utils/fakeData.js';
+import DealershipController from '../controllers/dealershipController.js'
+import { generateFakeCarData } from '../utils/fakeData.js';
+import CarsController from '../controllers/carsController.js';
 
-//a. dealership can view all cars
-router.get('/', function (req, res, next) {
-    // console.log(fakeDealerData);
+// user can view all cars in a dealership
+// router.get('/cars',);
 
-    res.json({});
-});
-//b. dealership can view all cars sold by itself.
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+// To view all deals from a certain dealership
+router.get('/deals', DealershipController.getDealershipDeals);
 
-//c. dealership can add cars
-router.post('/car', async function (req, res, next) {
-    //TODO: take the car data from request body.    
+// To add deals to dealership
+// router.post('/deals',);
 
-    const carData = generateFakeCarData();
-    // console.log(carData);
-    const result = await insertCarToDealership("64a477105431a793bda633d3", carData);
+// To allow user to buy a car after a deal is made
+// router.post('/deals/buy', );
 
-    if(result.acknowledged) {
-        return res.json({message: "Car added successfully"});
-    }
-    res.json({message: "Error in adding a car"});
-});
+// dealership can view all cars sold by itself.
+router.get('/soldCars', DealershipController.getSoldDealershipVehicles);
 
-// //d. dealership can view deals provided by dealership.
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
-// //e. dealership can add deals to dealership
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
-// //f. dealership can view vehicles sold by dealership
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+// To add new vehicle to the list of sold vehicles after a deal is made
+// router.post('/soldCars',);
 
-// //g. add new vehicle to the list of sold vehicles after a deal is made.
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
+// dealership can add cars
+router.post('/addCar', DealershipController.insertCarToDealership);
+
 
 export default router;

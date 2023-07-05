@@ -1,5 +1,6 @@
 import { connectToDB, closeConnection } from '../db.js';
 
+// create a new user.
 const insertUser = async function (doc) {
     try {
         const userCollection = await connectToDB("NERVESPARK", "user");

@@ -1,0 +1,18 @@
+user routes
+/user/ownedCars {get} (user) 
+
+
+dealership routes
+/dealership/cars {get} (user)
+/dealership/deals {get} (user) (dealership)
+/dealership/deals {post} (dealership)
+/dealership/deals/buy {post} (user) //user will buy the car and update relevant databases
+/dealership/soldCars {get} (dealership)
+/dealsership/soldCars {post} (dealership)
+/dealership/addCar {post} (dealership)
+
+
+cars route
+/cars {get} (user) (dealership)
+/cars/dealership {get} (user)
+/cars/deals {get} (user)

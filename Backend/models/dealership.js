@@ -1,25 +1,39 @@
 import { connectToDB, closeConnection } from '../db.js';
 import { insertCar } from './cars.js';
 import { ObjectId } from 'mongodb';
+import { generateFakeCarData } from '../utils/fakeData.js';
 
-const findDealershipAndUpdate = async function (id, carObjectId) {
+// finds a dealership by id
+const findDealership = async function (id) {
     try {
         const dealershipCollection = await connectToDB("NERVESPARK", "dealership");
 
         const dealership = await dealershipCollection.findOne({ "_id": new ObjectId(id) });
-        
-        let dealershipCars = dealership.cars;
-        dealershipCars.push(carObjectId);
+        return dealership;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        await closeConnection();
+        console.log("Connection closed")
+    }
+}
 
-        const fiter = { "_id": new ObjectId(id) };
+// update the dealership with the new carId
+const updateDealershipCars = async function (dealership, carObjectId) {
+    try {
+        const dealershipCollection = await connectToDB("NERVESPARK", "dealership");
+        
+        const _id = dealership._id;
+        const dealershipCars = dealership.cars;
+        dealershipCars.push(carObjectId);
+        const filter = { _id };
         const updateDocument = {
             $set: {
                 "cars": dealershipCars,
             }
         }
 
-        return await dealershipCollection.updateOne(fiter, updateDocument);
-
+        return await dealershipCollection.updateOne(filter, updateDocument);
     } catch (e) {
         console.error(e);
     } finally {
@@ -43,20 +57,19 @@ const insertDealer = async function (doc) {
     }
 }
 
-// insert a new car to a dealership
-const insertCarToDealership = async function (dealershipId, doc) {
+const viewDealershipDeal = async function (dealershipId) {
     try {
-        const carData = await insertCar(doc);
-    
-        const dealership = await findDealershipAndUpdate(dealershipId, carData.insertedId);
-        return dealership;
-    } catch (error) {
-        
-    }
+        const dealsCollection = await connectToDB("NERVESPARK", "deal");
 
-    console.log({ dealership }); 
+        return await dealsCollection.find({ "car_id": new ObjectId(carId) }).toArray();
+    } catch (error) {
+        console.error(error);
+    }finally{
+        await closeConnection();
+        console.log("Connection closed")
+    }
 }
 
-// createFakeData();
+// insertCarToDealership("64a477f467cbd1e797e8bb9c", generateFakeCarData());
 
-export { insertDealer, insertCarToDealership };
+export { insertDealer, updateDealershipCars,findDealership };

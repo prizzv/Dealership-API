@@ -37,6 +37,14 @@ const generateFakeDealerData = () => {
     };
 }
 
+//creates a fake deal data.
+const generateFakeDealData = () => {
+    return {
+        deal_info: faker.datatype.json(),
+    }
+}
+
+
 async function createFakeData() {
     let result = [];
     for (let i = 0; i < 5; i++) {
@@ -53,4 +61,4 @@ async function createFakeData() {
 
 // createFakeData();
 
-export { generateFakeCarData, generateFakeUserData, generateFakeDealerData };
+export { generateFakeCarData, generateFakeUserData, generateFakeDealerData ,generateFakeDealData};

@@ -1,17 +1,28 @@
 import { connectToDB, closeConnection } from '../db.js';
+import { ObjectId } from 'mongodb';
 
 // finds all the cars.
 const findCars = async function () {
     try {
         const carsCollection = await connectToDB("NERVESPARK", "cars");
 
-        // return await carsCollection.find().toArray();
-
         return await carsCollection.find().toArray();
-
-        // console.log(result);
     } catch (e) {
         console.error(e);
+    } finally {
+        await closeConnection();
+        console.log("Connection closed")
+    }
+};
+// finds a specific car by object id.
+const findCarByObjectId = async function (_id) {
+    try {
+        const carsCollection = await connectToDB("NERVESPARK", "cars");
+
+        return await carsCollection.findOne({ _id });
+    } catch (e) {
+        console.error(e);
+
     } finally {
         await closeConnection();
         console.log("Connection closed")
@@ -23,7 +34,7 @@ const insertCar = async function (doc) {
     try {
         const carsCollection = await connectToDB("NERVESPARK", "cars");
         // console.log(await carsCollection.insertMany(doc));
-        
+
         return await carsCollection.insertOne(doc);
     } catch (e) {
         console.error(e);
@@ -31,8 +42,8 @@ const insertCar = async function (doc) {
         await closeConnection();
         console.log("Connection closed")
     }
-}
+};
 
-// createFakeData();
+// findCarById();
 
-export { findCars, insertCar  };
+export { findCars, insertCar, findCarByObjectId };
