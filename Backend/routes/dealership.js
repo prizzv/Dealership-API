@@ -21,7 +21,7 @@ router.get('/soldCars', DealershipController.getSoldDealershipVehicles);  //DONE
 // router.post('/soldCars', DealershipController.);
 
 // dealership can add cars
-router.post('/addCar', DealershipController.insertCarToDealership);
+router.post('/addCar', DealershipController.insertCarToDealership);  //DONE: 
 
 
 export default router;

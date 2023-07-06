@@ -67,9 +67,7 @@ const getSoldDealershipVehicles = async function (req, res, next) {
 
     let result = [];
     for (let i = 0; i < dealershipSoldCars.length; i++) {
-        const soldCar = await findSoldVehicleById(dealershipSoldCars[i]);
-        
-        result.push(soldCar);
+        result.push(await findSoldVehicleById(dealershipSoldCars[i]));
 
         result[i].vehicle_info = await findCarByObjectId(result[i].car_id);
     }

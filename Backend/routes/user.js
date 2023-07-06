@@ -1,10 +1,8 @@
 import express from 'express';
 var router = express.Router();
-import DealerShipController from '../controllers/dealershipController.js'
-import CarsController from '../controllers/carsController.js';
-import DealsController from '../controllers/dealsController.js';
+import UserController from '../controllers/userController.js';
 
 // To view all vehicles owned by user
-// router.get('/ownedCars', );
+router.get('/ownedCars', UserController.getOwnedCars);  // DONE:
 
 export default router;
