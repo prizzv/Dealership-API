@@ -1,8 +1,6 @@
 import express from 'express';
 var router = express.Router();
 import DealershipController from '../controllers/dealershipController.js'
-import { generateFakeCarData } from '../utils/fakeData.js';
-import CarsController from '../controllers/carsController.js';
 
 // user can view all cars in a dealership
 router.get('/cars', DealershipController.getDealershipCars);  // DONE:
@@ -17,10 +15,10 @@ router.post('/deals',DealershipController.newDeal);  // DONE:
 router.post('/deals/buy', DealershipController.buyCar);  // DONE:
 
 // dealership can view all cars sold by itself.
-router.get('/soldCars', DealershipController.getSoldDealershipVehicles);
+router.get('/soldCars', DealershipController.getSoldDealershipVehicles);  //DONE: 
 
 // To add new vehicle to the list of sold vehicles after a deal is made
-// router.post('/soldCars',);
+// router.post('/soldCars', DealershipController.);
 
 // dealership can add cars
 router.post('/addCar', DealershipController.insertCarToDealership);

@@ -1,8 +1,7 @@
 import { connectToDB, closeConnection } from '../db.js';
-import { insertCar } from './cars.js';
 import { ObjectId } from 'mongodb';
-import { generateFakeCarData } from '../utils/fakeData.js';
 
+// create a new sold vehicle
 const newSoldVehicle = async function (carId, vehicle_info) {
     try {
         const soldVehiclesCollection = await connectToDB("NERVESPARK", "sold_vehicles");
@@ -25,4 +24,17 @@ const newSoldVehicle = async function (carId, vehicle_info) {
     }
 }
 
-export { newSoldVehicle };
+const findSoldVehicleById = async function (soldVehicleId) {
+    try {
+        const soldVehiclesCollection = await connectToDB("NERVESPARK", "sold_vehicles");
+
+        return await soldVehiclesCollection.findOne({ _id: new ObjectId(soldVehicleId) });
+    } catch (error) {
+        console.error(error);
+    }finally{
+        await closeConnection();
+        console.log("Connection closed")
+    }
+}
+
+export { newSoldVehicle ,findSoldVehicleById};

@@ -1,14 +1,13 @@
 import { insertCar, findCarByObjectId } from '../models/cars.js';
 import { findDealership, updateDealershipCars, updateDealershipDeals, updateDealershipSoldCars } from '../models/dealership.js';
 import { generateFakeCarData, generateFakeDealData, generateFakeSoldVehicleData } from '../utils/fakeData.js';
-import { ObjectId } from 'mongodb';
 import { findDealByObjectId, createDeal, findDealById } from '../models/deal.js'
-import { newSoldVehicle } from '../models/soldVehicles.js';
+import { newSoldVehicle , findSoldVehicleById} from '../models/soldVehicles.js';
 import { findUserById, updateUserVehicles } from '../models/user.js';
 
 const insertCarToDealership = async function (req, res, next) {
-    //TODO: take the car data from request body.
-    const dealershipId = "64a477f467cbd1e797e8bb9c";
+    
+    const dealershipId = "64a477f467cbd1e797e8bb9c";  //TODO: take the car data from request body.
     const newCar = generateFakeCarData();  //TODO: take the car data from request body.
 
     try {
@@ -58,7 +57,7 @@ const getDealershipDeals = async function (req, res, next) {
     }
     res.json(result);
 }
-// CHECK:
+
 //get all the vehicles sold by the dealership
 const getSoldDealershipVehicles = async function (req, res, next) {
     const dealershipId = "64a477f467cbd1e797e8bb9c"; //TODO: get the dealership id from request body
@@ -68,12 +67,16 @@ const getSoldDealershipVehicles = async function (req, res, next) {
 
     let result = [];
     for (let i = 0; i < dealershipSoldCars.length; i++) {
-        const soldCar = await findCarByObjectId(dealershipSoldCars[i]);
+        const soldCar = await findSoldVehicleById(dealershipSoldCars[i]);
+        
         result.push(soldCar);
+
+        result[i].vehicle_info = await findCarByObjectId(result[i].car_id);
     }
 
     res.json(result);
 }
+
 // dealership creates a new deal.
 const newDeal = async function (req, res, next) {
     const dealershipId = "64a477f467cbd1e797e8bb9c"; //TODO: get the dealership id from request body
