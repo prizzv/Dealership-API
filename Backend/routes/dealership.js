@@ -5,16 +5,16 @@ import { generateFakeCarData } from '../utils/fakeData.js';
 import CarsController from '../controllers/carsController.js';
 
 // user can view all cars in a dealership
-// router.get('/cars',);
+router.get('/cars', DealershipController.getDealershipCars);  // DONE:
 
 // To view all deals from a certain dealership
-router.get('/deals', DealershipController.getDealershipDeals);
+router.get('/deals', DealershipController.getDealershipDeals); // DONE:
 
 // To add deals to dealership
-// router.post('/deals',);
+router.post('/deals',DealershipController.newDeal);  // DONE:
 
 // To allow user to buy a car after a deal is made
-// router.post('/deals/buy', );
+router.post('/deals/buy', DealershipController.buyCar);  // DONE:
 
 // dealership can view all cars sold by itself.
 router.get('/soldCars', DealershipController.getSoldDealershipVehicles);

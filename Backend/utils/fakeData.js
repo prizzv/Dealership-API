@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { insertCar } from '../models/cars.js'
-import { insertDealer } from '../models/dealership.js';
+import { insertDealership } from '../models/dealership.js';
 import { insertUser } from '../models/user.js';
 
 // creates the fake car data.
@@ -19,7 +19,7 @@ const generateFakeUserData = () => {
         user_location: faker.location.zipCode(),
         user_info: faker.datatype.json(),
         password: faker.internet.password(),
-        vehical_info: faker.string.uuid(),
+        vehicle_info: faker.string.uuid(),
     };
 }
 
@@ -27,8 +27,8 @@ const generateFakeUserData = () => {
 const generateFakeDealerData = () => {
     return {
         dealership_email: faker.internet.email(),
-        dealership_id: faker.string.uuid(),
         dealership_name: faker.company.name(),
+        dealership_location: faker.location.zipCode(),
         password: faker.internet.password(),
         dealership_info: faker.datatype.json(),
         cars: faker.helpers.uniqueArray(["maruti", "suzuki", "alto", "Porche"],1),
@@ -44,6 +44,12 @@ const generateFakeDealData = () => {
     }
 }
 
+//creates a fake sold vehicle data.
+const generateFakeSoldVehicleData = () => {
+    return {
+        vehicle_info: faker.datatype.json(),
+    }
+}
 
 async function createFakeData() {
     let result = [];
@@ -59,6 +65,6 @@ async function createFakeData() {
     console.log(result);
 }
 
-// createFakeData();
+// console.log(generateFakeDealData());
 
-export { generateFakeCarData, generateFakeUserData, generateFakeDealerData ,generateFakeDealData};
+export { generateFakeCarData, generateFakeUserData, generateFakeDealerData ,generateFakeDealData, generateFakeSoldVehicleData};
