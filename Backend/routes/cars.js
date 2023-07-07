@@ -8,7 +8,7 @@ router.get('/', CarsController.getAllCars);
 // To view dealerships with a certain car
 // router.get('/dealership', CarsController.get);
 
-//  To view all deals on a certain car
+// To view all deals on a certain car
 router.get('/deals', CarsController.getDeals);
 
 export default router;

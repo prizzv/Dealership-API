@@ -65,6 +65,6 @@ async function createFakeData() {
     console.log(result);
 }
 
-// console.log(generateFakeDealData());
+// console.log(generateFakeUserData());
 
 export { generateFakeCarData, generateFakeUserData, generateFakeDealerData ,generateFakeDealData, generateFakeSoldVehicleData};

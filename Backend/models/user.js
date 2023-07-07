@@ -7,9 +7,29 @@ const insertUser = async function (doc) {
         const userCollection = await connectToDB("NERVESPARK", "user");
 
         // console.log(await userCollection.insertMany(doc));
-        return await userCollection.insertOne(doc);
+        const result = await userCollection.insertOne(doc);
+
+        if (result.acknowledged) {
+            return result.insertedId;
+        } else {
+            throw new Error("Error inserting user");
+        }
     } catch (e) {
         console.error(e);
+    } finally {
+        await closeConnection();
+        console.log("Connection closed")
+    }
+}
+
+// find an existing user by email.
+const findUserByEmail = async function (user_email) {
+    try {
+        const userCollection = await connectToDB("NERVESPARK", "user");
+
+        return await userCollection.findOne({ user_email });
+    } catch (error) {
+        console.error(error);
     } finally {
         await closeConnection();
         console.log("Connection closed")
@@ -57,4 +77,4 @@ const updateUserVehicles = async function (user) {
 
 // createFakeData();
 
-export { insertUser, findUserById, updateUserVehicles };
+export { insertUser, findUserById, updateUserVehicles, findUserByEmail };
