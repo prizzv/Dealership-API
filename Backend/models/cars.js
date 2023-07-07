@@ -35,7 +35,13 @@ const insertCar = async function (doc) {
         const carsCollection = await connectToDB("NERVESPARK", "cars");
         // console.log(await carsCollection.insertMany(doc));
 
-        return await carsCollection.insertOne(doc);
+        const result = await carsCollection.insertOne(doc);
+
+        if(result.acknowledged){
+            return result.insertedId;
+        }else{
+            throw new Error("Error inserting a new car");
+        }
     } catch (e) {
         console.error(e);
     } finally {

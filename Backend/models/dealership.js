@@ -1,7 +1,5 @@
 import { connectToDB, closeConnection } from '../db.js';
-import { insertCar } from './cars.js';
 import { ObjectId } from 'mongodb';
-import { generateFakeCarData } from '../utils/fakeData.js';
 
 // finds a dealership by id
 const findDealership = async function (id) {
@@ -9,6 +7,21 @@ const findDealership = async function (id) {
         const dealershipCollection = await connectToDB("NERVESPARK", "dealership");
 
         const dealership = await dealershipCollection.findOne({ "_id": new ObjectId(id) });
+        return dealership;
+    } catch (error) {
+        console.error(error);
+    } finally {
+        await closeConnection();
+        console.log("Connection closed")
+    }
+}
+
+// finds the dealership by email
+const findDealershipByEmail = async function (dealership_email) {
+    try {
+        const dealershipCollection = await connectToDB("NERVESPARK", "dealership");
+
+        const dealership = await dealershipCollection.findOne({ dealership_email });
         return dealership;
     } catch (error) {
         console.error(error);
@@ -94,8 +107,13 @@ const insertDealership = async function (doc) {
     try {
         const dealershipCollection = await connectToDB("NERVESPARK", "dealership");
 
-        // console.log(await dealershipCollection.insertMany(doc));
-        return await dealershipCollection.insertOne(doc);
+        const result = await dealershipCollection.insertOne(doc);
+
+        if (result.acknowledged) {
+            return result.insertedId;
+        } else {
+            throw new Error("Error creating dealership");
+        }
     } catch (e) {
         console.error(e);
     } finally {
@@ -104,19 +122,13 @@ const insertDealership = async function (doc) {
     }
 }
 
-const viewDealershipDeal = async function (dealershipId) {
-    try {
-        const dealsCollection = await connectToDB("NERVESPARK", "deal");
-
-        return await dealsCollection.find({ "car_id": new ObjectId(carId) }).toArray();
-    } catch (error) {
-        console.error(error);
-    } finally {
-        await closeConnection();
-        console.log("Connection closed")
-    }
-}
-
 // insertCarToDealership("64a477f467cbd1e797e8bb9c", generateFakeCarData());
 
-export { insertDealership, updateDealershipCars, findDealership, updateDealershipDeals, updateDealershipSoldCars };
+export {
+    insertDealership,
+    updateDealershipCars,
+    findDealership,
+    updateDealershipDeals,
+    updateDealershipSoldCars,
+    findDealershipByEmail
+};

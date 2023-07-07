@@ -22,7 +22,7 @@ const getOwnedCars = async (req, res) => {
     res.json({ result });
 }
 
-//creating a new user.
+// creating a new user.
 const userSignup = async (req, res) => {
     try {
         // Authenticate the user.

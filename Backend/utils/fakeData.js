@@ -24,7 +24,7 @@ const generateFakeUserData = () => {
 }
 
 // creates the fake dealer data.
-const generateFakeDealerData = () => {
+const generateFakeDealershipData = () => {
     return {
         dealership_email: faker.internet.email(),
         dealership_name: faker.company.name(),
@@ -65,6 +65,6 @@ async function createFakeData() {
     console.log(result);
 }
 
-// console.log(generateFakeUserData());
+// console.log(generateFakeCarData());
 
-export { generateFakeCarData, generateFakeUserData, generateFakeDealerData ,generateFakeDealData, generateFakeSoldVehicleData};
+export { generateFakeCarData, generateFakeUserData, generateFakeDealershipData ,generateFakeDealData, generateFakeSoldVehicleData};

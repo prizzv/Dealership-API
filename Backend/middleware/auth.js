@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 const verifyToken = (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
@@ -22,4 +25,16 @@ const verifyUser = (req, res, next) => {
     })
 }
 
-export { verifyToken , verifyUser};
+const verifyDealership = (req, res, next) => {
+    //verify the dealer
+    jwt.verify(req.token, process.env.ACCESS_TOKEN_SECRET, (err, authData) => {
+        if (err) {
+            res.status(403).json({ message: "Invalid token" });
+        } else {
+            req.dealership = authData;
+            next();
+        }
+    });
+}
+
+export { verifyToken, verifyUser , verifyDealership};
