@@ -27,10 +27,10 @@ router.get('/soldCars', verifyToken, verifyDealership, DealershipController.getS
 // dealership can add cars
 router.post('/addCar', verifyToken, verifyDealership, DealershipController.insertCarToDealership);  // DONE: 
 
-//dealership signup
+// dealership signup
 router.post('/signup', DealershipController.dealershipSignup);  // DONE: 
 
-//dealership login
+// dealership login
 router.post('/login', DealershipController.dealershipLogin);  // DONE:
 
 export default router;

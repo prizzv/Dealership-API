@@ -1,6 +1,5 @@
 import { insertCar, findCarByObjectId } from '../models/cars.js';
 import { findDealership, insertDealership, updateDealershipCars, updateDealershipDeals, updateDealershipSoldCars, findDealershipByEmail } from '../models/dealership.js';
-import { generateFakeCarData, generateFakeDealData, generateFakeSoldVehicleData } from '../utils/fakeData.js';
 import { findDealByObjectId, createDeal, findDealById } from '../models/deal.js'
 import { newSoldVehicle, findSoldVehicleById } from '../models/soldVehicles.js';
 import { findUserById, updateUserVehicles } from '../models/user.js';
@@ -86,7 +85,6 @@ const getSoldDealershipVehicles = async function (req, res) {
     let result = [];
     for (let i = 0; i < dealershipSoldCars.length; i++) {
         result.push(await findSoldVehicleById(dealershipSoldCars[i]));
-
         result[i].car_id = await findCarByObjectId(result[i].car_id);
     }
 

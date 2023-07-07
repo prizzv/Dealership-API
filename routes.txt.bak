@@ -15,7 +15,6 @@ dealership routes
 /dealership/signup
 /dealership/login
 
-
 cars route
 /cars {get} (user) (dealership)
 /cars/dealership {get} (user)

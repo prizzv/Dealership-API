@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(upload.any()) // for parsing multipart/form-data
+
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/dealership', dealershipRouter);
