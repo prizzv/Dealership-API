@@ -10,12 +10,12 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-const insertCarToDealership = async function (req, res, next) {
+const insertCarToDealership = async function (req, res) {
     console.log(req.dealership);
-    
+
     const dealershipId = req.dealership.dealership_id;
-    const {type, name, model, car_info} = req.body;
-    const newCar = {type, name, model, car_info} ;  //TODO: take the car data from request body.
+    const { type, name, model, car_info } = req.body;
+    const newCar = { type, name, model, car_info };  //TODO: take the car data from request body.
 
     try {
         const dealership = await findDealership(dealershipId);
@@ -36,10 +36,10 @@ const insertCarToDealership = async function (req, res, next) {
 }
 
 // get all the cars from the specific dealership
-const getDealershipCars = async function (req, res, next) {
-    const dealershipId = "64a477f467cbd1e797e8bb9c"; //TODO: get the dealership id from request body
+const getDealershipCars = async function (req, res) {
+    const { dealership_id } = req.params;
 
-    const dealership = await findDealership(dealershipId);
+    const dealership = await findDealership(dealership_id);
     const dealershipCars = dealership.cars;
 
     let result = [];
@@ -52,14 +52,14 @@ const getDealershipCars = async function (req, res, next) {
 }
 
 // get all the deals from the specific dealership
-const getDealershipDeals = async function (req, res, next) {
+const getDealershipDeals = async function (req, res) {
     const authDealership = req.dealership;
-    console.log({authDealership});
-    
+    console.log({ authDealership });
+
     let dealershipID;
-    if(authDealership == null) {
+    if (authDealership == null) {
         dealershipID = req.params.dealership_id;
-    }else{
+    } else {
         dealershipID = authDealership.dealership_id;
     }
 
@@ -77,8 +77,8 @@ const getDealershipDeals = async function (req, res, next) {
 }
 
 //get all the vehicles sold by the dealership
-const getSoldDealershipVehicles = async function (req, res, next) {
-    const dealershipId = "64a477f467cbd1e797e8bb9c"; //TODO: get the dealership id from request body
+const getSoldDealershipVehicles = async function (req, res) {
+    const dealershipId = req.dealership.dealership_id; //TODO: get the dealership id from request body
 
     const dealership = await findDealership(dealershipId);
     const dealershipSoldCars = dealership.sold_vehicles;
@@ -87,16 +87,16 @@ const getSoldDealershipVehicles = async function (req, res, next) {
     for (let i = 0; i < dealershipSoldCars.length; i++) {
         result.push(await findSoldVehicleById(dealershipSoldCars[i]));
 
-        result[i].vehicle_info = await findCarByObjectId(result[i].car_id);
+        result[i].car_id = await findCarByObjectId(result[i].car_id);
     }
 
     res.json(result);
 }
 
 // dealership creates a new deal.
-const newDeal = async function (req, res, next) {
-    const {deal_info} = req.body;
-    const {car_id} = req.query;
+const newDeal = async function (req, res) {
+    const { deal_info } = req.body;
+    const { car_id } = req.query;
     const dealershipId = req.dealership.dealership_id;
 
     const dealId = await createDeal(car_id, deal_info);
@@ -110,18 +110,16 @@ const newDeal = async function (req, res, next) {
 }
 
 // user buys a car from the dealership
-const buyCar = async function (req, res, next) {
-    const dealershipId = "64a477f467cbd1e797e8bb9c"; //TODO: get the dealership id from request body
-    const dealId = "64a5d4ace17f0bc7e6b92c21";  //TODO: get the deal id from request body
-    const userId = "64a45b0645ab0ac45445df59"; //TODO: get the user id from request body
+const buyCar = async function (req, res) {
+    const { dealership_id, deal_id } = req.params;
+    const userId = req.user.user_id; //TODO: get the user id from request body
 
-    const deal = await findDealById(dealId);
-    const dealership = await findDealership(dealershipId);
+    const deal = await findDealById(deal_id);
+    const dealership = await findDealership(dealership_id);
     const user = await findUserById(userId);
-    // console.log({deal});
-    // console.log({dealership});
+    const car = await findCarByObjectId(deal.car_id);
 
-    const vehicle_id = await newSoldVehicle(deal.car_id, generateFakeSoldVehicleData());
+    const vehicle_id = await newSoldVehicle(deal.car_id, car.car_info);
 
     user.vehicle_info.push(vehicle_id);
     console.log({ user });
@@ -142,7 +140,7 @@ const buyCar = async function (req, res, next) {
 }
 
 // creating a new dealership
-const dealershipSignup = async function (req, res, next) {
+const dealershipSignup = async function (req, res) {
 
     try {
         // Authenticate the dealership.
@@ -166,7 +164,7 @@ const dealershipSignup = async function (req, res, next) {
 }
 
 // logging in an existing dealership
-const dealershipLogin = async function (req, res, next) {   //TODO:
+const dealershipLogin = async function (req, res) {   //TODO:
     //Authenticate the user.
     const { dealership_email, password } = req.body;
     const dealership = await findDealershipByEmail(dealership_email);
