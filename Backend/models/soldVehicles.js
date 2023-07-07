@@ -18,7 +18,7 @@ const newSoldVehicle = async function (carId, vehicle_info) {
         }
     } catch (error) {
         console.error(error);
-    }finally{
+    } finally {
         await closeConnection();
         console.log("Connection closed")
     }
@@ -31,10 +31,10 @@ const findSoldVehicleById = async function (soldVehicleId) {
         return await soldVehiclesCollection.findOne({ _id: new ObjectId(soldVehicleId) });
     } catch (error) {
         console.error(error);
-    }finally{
+    } finally {
         await closeConnection();
         console.log("Connection closed")
     }
 }
 
-export { newSoldVehicle ,findSoldVehicleById};
+export { newSoldVehicle, findSoldVehicleById };

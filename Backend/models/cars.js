@@ -1,5 +1,4 @@
 import { connectToDB, closeConnection } from '../db.js';
-import { ObjectId } from 'mongodb';
 
 // finds all the cars.
 const findCars = async function () {
@@ -14,6 +13,7 @@ const findCars = async function () {
         console.log("Connection closed")
     }
 };
+
 // finds a specific car by object id.
 const findCarByObjectId = async function (_id) {
     try {
@@ -49,7 +49,5 @@ const insertCar = async function (doc) {
         console.log("Connection closed")
     }
 };
-
-// findCarById();
 
 export { findCars, insertCar, findCarByObjectId };

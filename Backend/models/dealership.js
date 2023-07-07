@@ -54,6 +54,7 @@ const updateDealershipCars = async function (dealership) {
         console.log("Connection closed")
     }
 }
+
 // update the dealership with the new deals
 const updateDealershipDeals = async function (dealership) {
     try {
@@ -121,8 +122,6 @@ const insertDealership = async function (doc) {
         console.log("Connection closed")
     }
 }
-
-// insertCarToDealership("64a477f467cbd1e797e8bb9c", generateFakeCarData());
 
 export {
     insertDealership,

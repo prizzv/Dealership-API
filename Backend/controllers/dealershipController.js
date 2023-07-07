@@ -10,11 +10,10 @@ import dotenv from 'dotenv'
 dotenv.config();
 
 const insertCarToDealership = async function (req, res) {
-    console.log(req.dealership);
 
     const dealershipId = req.dealership.dealership_id;
     const { type, name, model, car_info } = req.body;
-    const newCar = { type, name, model, car_info };  //TODO: take the car data from request body.
+    const newCar = { type, name, model, car_info };  
 
     try {
         const dealership = await findDealership(dealershipId);
@@ -77,7 +76,7 @@ const getDealershipDeals = async function (req, res) {
 
 //get all the vehicles sold by the dealership
 const getSoldDealershipVehicles = async function (req, res) {
-    const dealershipId = req.dealership.dealership_id; //TODO: get the dealership id from request body
+    const dealershipId = req.dealership.dealership_id; 
 
     const dealership = await findDealership(dealershipId);
     const dealershipSoldCars = dealership.sold_vehicles;
@@ -110,7 +109,7 @@ const newDeal = async function (req, res) {
 // user buys a car from the dealership
 const buyCar = async function (req, res) {
     const { dealership_id, deal_id } = req.params;
-    const userId = req.user.user_id; //TODO: get the user id from request body
+    const userId = req.user.user_id; 
 
     const deal = await findDealById(deal_id);
     const dealership = await findDealership(dealership_id);
@@ -162,7 +161,7 @@ const dealershipSignup = async function (req, res) {
 }
 
 // logging in an existing dealership
-const dealershipLogin = async function (req, res) {   //TODO:
+const dealershipLogin = async function (req, res) {
     //Authenticate the user.
     const { dealership_email, password } = req.body;
     const dealership = await findDealershipByEmail(dealership_email);

@@ -62,18 +62,4 @@ const findDealById = async function (dealId) {
     }
 }
 
-//finds all the deals
-const findDeals = async function () {
-    try {
-        const dealsCollection = await connectToDB("NERVESPARK", "deal");
-
-        return await dealsCollection.find().toArray();
-    } catch (error) {
-        console.error(error);
-    } finally {
-        await closeConnection();
-        console.log("Connection closed")
-    }
-}
-
-export { createDeal, viewDealsOnCar, findDealByObjectId ,findDealById, findDeals};
+export { createDeal, viewDealsOnCar, findDealByObjectId ,findDealById};

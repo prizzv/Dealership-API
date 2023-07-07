@@ -1,32 +1,23 @@
 import { findCars } from '../models/cars.js';
-import { findDeals } from '../models/deal.js';
+import { viewDealsOnCar } from '../models/deal.js';
 import { findCarByObjectId } from '../models/cars.js';
 
-const getAllCars = async function (req, res, next) {
+const getAllCars = async function (req, res) {
     const result = await findCars();
-    // console.log(await findCars());
 
     return res.json(result);
 }
 
-const getDeals = async function (req, res, next) {
+const getDeals = async function (req, res) {
     const carId = req.params.car_id;
 
-    const deals = await findDeals();
+    const deals = await viewDealsOnCar(carId);
 
-    const result = [];
-    let j = 0;
     for (let i = 0; i < deals.length; i++) {
-        // console.log(deals[i].car_id, carId);
-
-        if (deals[i].car_id == carId) {
-            result.push(deals[i]);
-            result[j].car_id = await findCarByObjectId(result[j].car_id);
-            j++;
-        }
+        deals[i].car_id = await findCarByObjectId(deals[i].car_id);
     }
 
-    return res.json({ result });
+    return res.json(deals);
 }
 
 
