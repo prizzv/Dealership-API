@@ -5,9 +5,6 @@ import { newSoldVehicle, findSoldVehicleById } from '../models/soldVehicles.js';
 import { findUserById, updateUserVehicles } from '../models/user.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv'
-
-dotenv.config();
 
 const insertCarToDealership = async function (req, res) {
 

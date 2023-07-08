@@ -3,9 +3,6 @@ import { findSoldVehicleById } from "../models/soldVehicles.js";
 import { findUserById, insertUser, findUserByEmail } from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dotenv from 'dotenv'
-
-dotenv.config();
 
 // get user owned cars.
 const getOwnedCars = async (req, res) => {

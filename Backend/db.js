@@ -1,12 +1,21 @@
 //contains the connection to database
+import dotenv from 'dotenv'
 
-import { MongoClient, ObjectId } from "mongodb";
+dotenv.config();
+
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 //local host does not work now so use the below
-const uri = "mongodb://0.0.0.0:27017/";
+const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.DB_PASSWORD}@nervespark.dckg2yk.mongodb.net/?retryWrites=true&w=majority`;
 
-const connection = new MongoClient(uri);
-
+const connection = new MongoClient(uri, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      }
+});
+// client.connect();
 // block to connect to DB and collection. 
 async function connectToDB(dbName, collectionName) {
     try {

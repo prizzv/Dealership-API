@@ -5,6 +5,9 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import multer from 'multer';
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/user.js';
