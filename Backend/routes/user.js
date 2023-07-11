@@ -8,6 +8,6 @@ router.get('/ownedCars', verifyToken, verifyUser, UserController.getOwnedCars); 
 
 router.post('/signup', UserController.userSignup);  // DONE:
 
-router.post('/login', verifyToken, UserController.userLogin);  // DONE:
+router.post('/login', UserController.userLogin);  // DONE:
 
 export default router;
