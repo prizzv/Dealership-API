@@ -1,4 +1,4 @@
-This Project was developed as an assignment to create dealership Backend.
+It uses JWT for user and dealership authentication. The project is made to automate the process of a dealership for selling cars and creating multiple deals on various cars. The user will select a deal and purchase the car. The user can also see various cars available and various dealerships selling different cars.
 
 The tech stack used for developing the API are Mongodb ATLAS, Express, Node.js, multer, JWT, etc.
 
